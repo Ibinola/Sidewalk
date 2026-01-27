@@ -25,3 +25,42 @@ export const createReport = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to create report" });
   }
 };
+
+export const verifyReport = async (req: Request, res: Response) => {
+  try {
+    const { txHash, originalDescription } = req.body;
+
+    if (!txHash || !originalDescription) {
+      return res
+        .status(400)
+        .json({ error: "txHash and originalDescription are required" });
+    }
+
+    const expectedHash = crypto
+      .createHash("sha256")
+      .update(originalDescription)
+      .digest("hex");
+
+    const result = await stellarService.verifyTransaction(txHash, expectedHash);
+
+    if (result.valid) {
+      res.json({
+        success: true,
+        message: "✅ Content Verified! It matches the on-chain record.",
+        timestamp: result.timestamp,
+        signer: result.sender,
+        on_chain_hash: expectedHash,
+      });
+    } else {
+      res.status(409).json({
+        success: false,
+        message:
+          "❌ Verification Failed. The content has been altered or does not match the record.",
+        timestamp: result.timestamp,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(404).json({ error: "Transaction not found" });
+  }
+};
