@@ -1,4 +1,12 @@
-import { Horizon, Keypair } from "@stellar/stellar-sdk";
+import {
+  Horizon,
+  Keypair,
+  TransactionBuilder,
+  Networks,
+  Operation,
+  Asset,
+  Memo,
+} from "@stellar/stellar-sdk";
 
 export class StellarService {
   private server: Horizon.Server;
@@ -49,32 +57,36 @@ export class StellarService {
     }
   }
 
-  async verifyTransaction(
-    txHash: string,
-    expectedHash: string,
-  ): Promise<{ valid: boolean; timestamp: string; sender: string }> {
-    console.log(`🔍 Verifying TX: ${txHash}`);
+  async anchorHash(dataHash: string): Promise<string> {
+    console.log(`⚓ Anchoring hash: ${dataHash}`);
+    const account = await this.server.loadAccount(this.getPublicKey());
+    const tx = new TransactionBuilder(account, {
+      fee: "100",
+      networkPassphrase: Networks.TESTNET,
+    })
+      .addOperation(
+        Operation.payment({
+          destination: this.getPublicKey(),
+          asset: Asset.native(),
+          amount: "0.00001",
+        }),
+      )
+      .addMemo(Memo.hash(dataHash))
+      .setTimeout(30)
+      .build();
+
+    tx.sign(this.keypair);
 
     try {
-      const tx = await this.server.transactions().transaction(txHash).call();
-
-      const memoType = tx.memo_type;
-      const memoValue = tx.memo;
-      const timestamp = tx.created_at;
-
-      const onChainHashHex = Buffer.from(memoValue, "base64").toString("hex");
-
-      const isValid =
-        onChainHashHex === expectedHash || memoValue === expectedHash; // Check both just in case
-
-      return {
-        valid: isValid,
-        timestamp: timestamp,
-        sender: tx.source_account,
-      };
+      const result = await this.server.submitTransaction(tx);
+      console.log(`✅ Hash anchored! TX: ${result.hash}`);
+      return result.hash;
     } catch (error: any) {
-      console.error("❌ Verification failed:", error.message);
-      throw new Error("Transaction not found or network error");
+      console.error(
+        "❌ Anchoring failed:",
+        error.response?.data?.extras?.result_codes || error.message,
+      );
+      throw new Error("Failed to anchor hash on Stellar.");
     }
   }
 }
