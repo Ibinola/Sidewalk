@@ -1,22 +1,20 @@
-export interface StatusChangeContext {
-  caseId: string;
-  oldStatus: string;
-  newStatus: string;
-  updatedBy: string;
-}
+export type ToastVariant = 'success' | 'error' | 'warning' | 'info';
+export type BannerPriority = 'persistent' | 'dismissable' | 'auto-dismiss';
 
-export interface ToastNotification {
-  toastId: string;
-  type: 'info' | 'success' | 'warning' | 'error';
+export interface ToastMessage {
+  id: string;
+  variant: ToastVariant;
   title: string;
   message: string;
-  context?: StatusChangeContext;
-  durationMs: number;
+  action?: { label: string; href: string };
+  duration?: number;
 }
 
-export interface BannerAlert {
-  bannerId: string;
-  isDismissible: boolean;
-  content: string;
-  actionUrl?: string;
+export interface StatusBanner {
+  id: string;
+  priority: BannerPriority;
+  message: string;
+  type: 'info' | 'warning' | 'error';
+  dismissable: boolean;
+  expiresAt?: Date;
 }
