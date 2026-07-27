@@ -3,6 +3,7 @@ import { ValidationError } from "../../../shared/errors/AppError.js";
 import { reportService } from "../services/report.service.js";
 import { reportSubmissionSchema, moderationSchema } from "../validators/report.validator.js";
 import type { AuthTokenPayload } from "../../auth/types/auth.types.js";
+import { caseFollowRulesService } from "../../cases/services/case-follow-rules.service.js";
 
 export const reportController = {
   async create(req: Request, res: Response): Promise<void> {
@@ -13,6 +14,9 @@ export const reportController = {
 
     const user = (req as any).user as AuthTokenPayload;
     const result = await reportService.create(parsed.data, user);
+
+    await caseFollowRulesService.autoFollowOnCreation(result.id, user.sub);
+
     res.status(201).json({ success: true, data: result });
   },
 
@@ -38,6 +42,9 @@ export const reportController = {
     const moderator = (req as any).user as AuthTokenPayload;
     const id = req.params.id as string;
     const report = await reportService.moderate(id, parsed.data, moderator.sub);
+
+    await caseFollowRulesService.autoFollowOnStatusChange(id, moderator.sub);
+
     res.json({ success: true, data: report });
   },
 };

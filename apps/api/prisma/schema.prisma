@@ -24,6 +24,7 @@ model User {
   reports      Report[]
   moderation   Moderation[]
   auditEvents  AuditEvent[]
+  followRules  CaseFollowRule[]
 }
 
 // ---------------------------------------------------------------------------
@@ -114,4 +115,28 @@ model AuditEvent {
   @@index([actorUserId])
   @@index([eventType])
   @@index([createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// CaseFollowRule  (#665 — follow rules tied to report ownership & participation)
+// ---------------------------------------------------------------------------
+
+model CaseFollowRule {
+  id          String   @id @default(cuid())
+  caseId      String
+  userId      String
+  /// case_created | new_comment | status_change | assigned_to_me | mentioned_in_comment
+  triggerCondition String
+  onNewComment     Boolean  @default(true)
+  onStatusChange   Boolean  @default(true)
+  onAssignment     Boolean  @default(true)
+  onMention        Boolean  @default(true)
+  isActive         Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([caseId, userId])
+  @@index([caseId])
+  @@index([userId])
+  @@index([isActive])
 }
