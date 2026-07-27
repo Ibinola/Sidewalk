@@ -1,3 +1,5 @@
+export * from "./types/subscription-rules.types.js";
+export * from "./validation/subscription-rules.schemas.js";
 export * from "./types/auth.js";
 export * from "./types/civic.js";
 export * from "./types/pagination.js";
