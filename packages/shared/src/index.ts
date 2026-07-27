@@ -1,3 +1,5 @@
+export * from "./types/subscription-rules.types.js";
+export * from "./validation/subscription-rules.schemas.js";
 export * from "./types/auth.js";
 export * from "./types/civic.js";
 export * from "./types/pagination.js";
@@ -8,5 +10,5 @@ export * from "./types/subscription-cleanup.types.js";
 export * from "./validation/auth.js";
 export * from "./validation/civic.js";
 export * from "./validation/profile.js";
-export * from "./validation/stale-report-reminders.schemas.js";
-export * from "./validation/subscription-cleanup.schemas.js";
+export * from "./types/notification-filters.types.js";
+export * from "./validation/notification-filters.schemas.js";
