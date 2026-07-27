@@ -1,4 +1,4 @@
-export { SettingsPersistenceDesign } from './SettingsPersistenceDesign';
-export { AlertPreviewDesign } from './AlertPreviewDesign';
-export { DeliveryFallbackDesign } from './DeliveryFallbackDesign';
-export { EngagementPromptDesign } from './EngagementPromptDesign';
+export { NotificationHistoryDesign } from './NotificationHistoryDesign';
+export { LifecycleTriggerDesign } from './LifecycleTriggerDesign';
+export { SubscriptionCleanupDesign } from './SubscriptionCleanupDesign';
+export { RespectfulDefaultsDesign } from './RespectfulDefaultsDesign';
