@@ -8,3 +8,5 @@ export * from "./types/enums.js";
 export * from "./validation/auth.js";
 export * from "./validation/civic.js";
 export * from "./validation/profile.js";
+export * from "./types/notification-filters.types.js";
+export * from "./validation/notification-filters.schemas.js";
