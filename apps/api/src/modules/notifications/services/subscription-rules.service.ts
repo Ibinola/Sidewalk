@@ -2,7 +2,7 @@ import {
   subscriptionRuleSchema,
   type SubscriptionRule,
   type SubscriptionRulePayload,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class SubscriptionRulesService {
   private readonly rulesStore: Map<string, SubscriptionRule[]> = new Map();

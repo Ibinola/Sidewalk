@@ -2,7 +2,7 @@ import {
   persistentUserSettingsSchema,
   type PersistentUserSettings,
   type PersistentUserSettingsInput,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class NotificationSettingsPersistenceService {
   private readonly store: Map<string, PersistentUserSettings> = new Map();

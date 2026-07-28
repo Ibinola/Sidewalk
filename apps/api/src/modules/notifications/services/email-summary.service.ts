@@ -3,7 +3,7 @@ import {
   type EmailDigestTemplate,
   type DigestRecipient,
   type DigestItem,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class EmailSummaryService {
   public generateDigest(

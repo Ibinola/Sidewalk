@@ -2,7 +2,7 @@ import {
   alertPreviewPayloadSchema,
   type AlertPreviewPayload,
   type ExplainerCopyOptions,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class AlertPreviewExplainerService {
   public generateExplainerPreview(options: ExplainerCopyOptions): AlertPreviewPayload {

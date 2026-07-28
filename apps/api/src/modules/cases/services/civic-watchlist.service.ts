@@ -2,7 +2,7 @@ import {
   watchlistSummarySchema,
   type CivicWatchlistItem,
   type WatchlistSummary,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class CivicWatchlistService {
   private readonly watchlists: Map<string, CivicWatchlistItem[]> = new Map();

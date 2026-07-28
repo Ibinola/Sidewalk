@@ -3,13 +3,20 @@ import {
   type DigestScheduleFrequency,
   type DigestPayload,
   type NotificationSummaryItem,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
+
+interface RawNotification {
+  id: string;
+  title: string;
+  body: string;
+  type: string;
+}
 
 export class DigestSchedulerService {
   public generateDigest(
     recipientId: string,
     frequency: DigestScheduleFrequency,
-    rawNotifications: any[]
+    rawNotifications: RawNotification[]
   ): DigestPayload | null {
     if (frequency === 'none' || rawNotifications.length === 0) return null;
 

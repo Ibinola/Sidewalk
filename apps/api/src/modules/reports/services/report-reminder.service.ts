@@ -1,10 +1,10 @@
 export const reportReminderService = {
-  async sendStaleReportReminders(userId: string) {
+  async sendStaleReportReminders(_userId: string) {
     // Logic to send opt-in reminders for stale reports
     return true;
   },
 
-  async optInForReminders(userId: string) {
+  async optInForReminders(_userId: string) {
     // Logic for user to opt-in to stale report reminders
     return true;
   }

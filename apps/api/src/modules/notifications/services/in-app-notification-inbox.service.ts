@@ -1,7 +1,7 @@
 import {
   inAppNotificationItemSchema,
   type InAppNotificationItem,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class InAppNotificationInboxService {
   private readonly inboxStore: Map<string, InAppNotificationItem[]> = new Map();
