@@ -135,6 +135,8 @@ model CaseFollowRule {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  user        User     @relation(fields: [userId], references: [id])
+
   @@unique([caseId, userId])
   @@index([caseId])
   @@index([userId])
