@@ -2,7 +2,7 @@ import {
   topicSubscriptionSchema,
   type TopicSubscription,
   type TopicCategory,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class TopicSubscriptionsService {
   private readonly subscriptions: Map<string, TopicSubscription> = new Map();

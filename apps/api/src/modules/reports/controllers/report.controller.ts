@@ -3,6 +3,7 @@ import { ValidationError } from "../../../shared/errors/AppError.js";
 import { reportService } from "../services/report.service.js";
 import { reportSubmissionSchema, moderationSchema } from "../validators/report.validator.js";
 import type { AuthenticatedRequest } from "../../../shared/middleware/requireAuth.js";
+import type { AuthTokenPayload } from "../../auth/types/auth.types.js";
 import { caseFollowRulesService } from "../../cases/services/case-follow-rules.service.js";
 
 export const reportController = {
@@ -12,7 +13,7 @@ export const reportController = {
       throw new ValidationError(parsed.error.issues[0].message);
     }
 
-    const result = await reportService.create(parsed.data, { sub: req.userId! });
+    const result = await reportService.create(parsed.data, { sub: req.userId!, email: "" } as AuthTokenPayload);
 
     await caseFollowRulesService.autoFollowOnCreation(result.id, req.userId!);
 

@@ -3,7 +3,7 @@ import {
   subscriptionCleanupResultSchema,
   type SubscriptionCleanupRule,
   type SubscriptionCleanupResult,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class SubscriptionCleanupService {
   private readonly rules: SubscriptionCleanupRule[] = [];

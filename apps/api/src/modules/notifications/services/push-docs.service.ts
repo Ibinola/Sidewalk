@@ -1,7 +1,7 @@
 import {
   pushRegistrationDataSchema,
   type PushRegistrationData,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class PushDocsService {
   private readonly deviceTokens: Map<string, PushRegistrationData> = new Map();

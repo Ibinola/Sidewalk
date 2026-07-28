@@ -3,7 +3,7 @@ import {
   type CommentAuthorInfo,
   type MentionTag,
   type MentionNotificationPayload,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class MentionParserService {
   public parseAndNotify(

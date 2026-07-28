@@ -1,7 +1,7 @@
 import {
   unreadBadgeStateSchema,
   type UnreadBadgeState,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class UnreadBadgeCounterService {
   private readonly unreadCounts: Map<string, UnreadBadgeState> = new Map();

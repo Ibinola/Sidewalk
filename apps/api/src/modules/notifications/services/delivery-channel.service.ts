@@ -3,7 +3,7 @@ import {
   alertDeliveryPayloadSchema,
   type DeliveryChannelPreferences,
   type AlertDeliveryPayload,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class DeliveryChannelService {
   private readonly userPreferences: Map<string, DeliveryChannelPreferences> = new Map();

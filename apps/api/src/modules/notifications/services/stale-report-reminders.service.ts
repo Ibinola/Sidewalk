@@ -2,7 +2,7 @@ import {
   staleReportReminderSchema,
   type StaleReportReminder,
   type ReminderConfig,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class StaleReportRemindersService {
   private readonly reminders: StaleReportReminder[] = [];

@@ -1,7 +1,7 @@
 import {
   notificationAuditLogItemSchema,
   type NotificationAuditLogItem,
-} from '@qyou/shared';
+} from '@sidewalk/shared';
 
 export class NotificationAuditHistoryService {
   private readonly logs: NotificationAuditLogItem[] = [];
