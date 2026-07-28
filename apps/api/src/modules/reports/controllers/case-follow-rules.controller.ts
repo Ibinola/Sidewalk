@@ -1,33 +1,31 @@
-import type { Request, Response } from "express";
-import { NotFoundError, ValidationError } from "../../../shared/errors/AppError.js";
+import { NotFoundError } from "../../../shared/errors/AppError.js";
 import { caseFollowRulesService } from "../../cases/services/case-follow-rules.service.js";
-import type { AuthTokenPayload } from "../../auth/types/auth.types.js";
+import type { AuthenticatedRequest } from "../../../shared/middleware/requireAuth.js";
 import { prisma } from "../../../shared/database/prisma.js";
+import type { Response } from "express";
 
 export const caseFollowRulesController = {
-  async follow(req: Request, res: Response): Promise<void> {
+  async follow(req: AuthenticatedRequest, res: Response): Promise<void> {
     const caseId = req.params.id as string;
-    const user = (req as any).user as AuthTokenPayload;
 
     const report = await prisma.report.findUnique({ where: { id: caseId } });
     if (!report) throw new NotFoundError(`Report ${caseId} not found`);
 
-    const rule = await caseFollowRulesService.addRule(caseId, user.sub, "case_created");
+    const rule = await caseFollowRulesService.addRule(caseId, req.userId!, "case_created");
     res.status(200).json({ success: true, data: rule });
   },
 
-  async unfollow(req: Request, res: Response): Promise<void> {
+  async unfollow(req: AuthenticatedRequest, res: Response): Promise<void> {
     const caseId = req.params.id as string;
-    const user = (req as any).user as AuthTokenPayload;
 
-    const removed = await caseFollowRulesService.unfollow(caseId, user.sub);
+    const removed = await caseFollowRulesService.unfollow(caseId, req.userId!);
     if (!removed) {
       throw new NotFoundError("No active follow rule found");
     }
     res.status(200).json({ success: true, message: "Unfollowed" });
   },
 
-  async getFollowers(req: Request, res: Response): Promise<void> {
+  async getFollowers(req: AuthenticatedRequest, res: Response): Promise<void> {
     const caseId = req.params.id as string;
 
     const rules = await caseFollowRulesService.getRulesForCase(caseId);
@@ -43,17 +41,15 @@ export const caseFollowRulesController = {
     });
   },
 
-  async getFollowStatus(req: Request, res: Response): Promise<void> {
+  async getFollowStatus(req: AuthenticatedRequest, res: Response): Promise<void> {
     const caseId = req.params.id as string;
-    const user = (req as any).user as AuthTokenPayload;
 
-    const following = await caseFollowRulesService.isFollowing(caseId, user.sub);
+    const following = await caseFollowRulesService.isFollowing(caseId, req.userId!);
     res.status(200).json({ success: true, data: { following } });
   },
 
-  async getFollowedReports(req: Request, res: Response): Promise<void> {
-    const user = (req as any).user as AuthTokenPayload;
-    const rules = await caseFollowRulesService.getRulesForUser(user.sub);
+  async getFollowedReports(req: AuthenticatedRequest, res: Response): Promise<void> {
+    const rules = await caseFollowRulesService.getRulesForUser(req.userId!);
 
     const caseIds = rules.map((r) => r.caseId);
     if (caseIds.length === 0) {

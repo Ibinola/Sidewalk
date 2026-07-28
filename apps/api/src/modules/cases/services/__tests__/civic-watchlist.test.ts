@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { CivicWatchlistItem, WatchlistSummary, PriorityLevel } from '@sidewalk/shared';
+import type { CivicWatchlistItem, WatchlistSummary } from '@sidewalk/shared';
 
 interface WatchlistStore {
   lists: Map<string, CivicWatchlistItem[]>;
@@ -26,16 +26,8 @@ function removeFromWatchlist(store: WatchlistStore, userId: string, caseId: stri
 
 function getWatchlistSummary(store: WatchlistStore, userId: string): WatchlistSummary {
   const items = store.lists.get(userId) ?? [];
-  const now = Date.now();
-  const staleThreshold = 7 * 24 * 60 * 60 * 1000;
 
   const highPriority = items.filter((i) => i.priority === 'high').length;
-  const staleCount = items.filter(
-    (i) => now - new Date(i.lastActivityAtIso).getTime() > staleThreshold,
-  ).length;
-  const recentlyUpdated = items.filter(
-    (i) => now - new Date(i.lastActivityAtIso).getTime() <= staleThreshold,
-  ).length;
 
   return {
     userId,
