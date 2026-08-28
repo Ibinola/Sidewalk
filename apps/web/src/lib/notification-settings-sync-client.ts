@@ -60,6 +60,7 @@ export async function syncSettings(
   settings: PersistentUserSettingsInput,
   syncFn: (s: PersistentUserSettingsInput) => Promise<PersistentUserSettingsInput>,
 ): Promise<PersistentUserSettingsInput> {
+  const previousLocal = getLocalNotificationSettings();
   setSyncState({ status: 'syncing', lastSyncedAtIso: null, error: null });
 
   try {
@@ -72,6 +73,9 @@ export async function syncSettings(
 
     return resolved;
   } catch (err) {
+    if (previousLocal) {
+      saveLocalNotificationSettings(previousLocal);
+    }
     const message = err instanceof Error ? err.message : 'Sync failed';
     setSyncState({ status: 'error', lastSyncedAtIso: null, error: message });
     throw err;
