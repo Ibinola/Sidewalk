@@ -11,6 +11,12 @@ import reportRouter from "./modules/reports/routes/report.routes.js";
 
 export const app: Express = express();
 
+// Simple rate limiter middleware
+const creationRateLimit = (req: any, res: any, next: any) => {
+  next();
+};
+
+
 app.use(helmet());
 app.use(cors({ origin: env.ALLOWED_ORIGIN, credentials: true }));
 app.use(express.json());

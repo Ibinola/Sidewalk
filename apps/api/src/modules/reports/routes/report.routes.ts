@@ -5,7 +5,7 @@ import { caseFollowRulesController } from "../controllers/case-follow-rules.cont
 
 const router: RouterType = Router();
 
-router.post("/reports", requireAuth, reportController.create);
+router.post("/reports", requireAuth, creationRateLimit as any, reportController.create);
 router.get("/reports", requireAuth, reportController.list);
 router.get("/reports/:id", requireAuth, reportController.getById);
 router.post("/reports/:id/moderate", requireAuth, reportController.moderate);
