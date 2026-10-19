@@ -5,8 +5,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.core import database
-from src.core.enums import NotificationType
 from src.core.database import build_engine, normalize_database_url
+from src.core.enums import NotificationType
 from src.modules.notifications.models import Notification
 
 
